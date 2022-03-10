@@ -3,6 +3,8 @@ const express = require('express');
 //second line declares a variable that encapsulates Express’s functionality to configure your web server. This new variable is what you’ll use to route your HTTP requests and responses.
 const app = express();
 
+const port = 8080
+
 // Import Morgan middleware library
 const morgan = require('morgan');
 
@@ -72,6 +74,6 @@ app.use((err, req, res, next) => {
   });
 
 // listen for requests
-app.listen(8080, () => {
+app.listen(port, () => {
     console.log('Your app is listening on port 8080.');
 });
