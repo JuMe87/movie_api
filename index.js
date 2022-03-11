@@ -6,9 +6,9 @@ const app = express();
 const port = 8080
 
 // Imports middleware libraries: Morgan, body-parser and uuid
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const uuid = require('uuid');
+const morgan = require('morgan'),
+  bodyParser = require('body-parser'),
+  uuid = require('uuid');
 
 // Log basic request data in terminal using Morgan middleware library
 app.use(morgan('common'));
@@ -98,20 +98,23 @@ let directors = [
 //Create array of objects that holds data about users
 let users = [
     {
-        user_name: 'Jule Meyer',
-        email: 'j.musterfrau@gmail.com',
-        password: '123456!'
-        date of birth: '12/09/1967'
+      id: 1,  
+      user_name: "Jule Meyer",
+      email: "musterfrau@gmail.com",
+      password: '123456!',
+      birthday: '12/09/1967',
     },
     {
-        user_name: 'Strawberry',
-        email: 'strawberry@gmail.com',
-        password: '654321!'
-        date of birth: '08/09/1995'
+      id: 2,
+      user_name: 'Strawberry',
+      email: 'strawberry@gmail.com',
+      password: '654321!',
+      birthday: '08/09/1995',
+      favorites: 'Titanic'
     }
 ];
 
-// Return a list of ALL movies to the user
+// Return a list of ALL movies 
 app.get('/movies', (req, res) => {
     res.json(movies);
 });
@@ -142,7 +145,7 @@ app.post('/users', (req, res) => {
     let newUser = req.body; // using body-parser to get request body in JSON format
   
     if(!newUser.user_name){ // If the user_name is missing, return error message
-      const message = 'missing "name" in reuqest body';
+      const message = 'Missing "name" in request body';
       res.status(400).send(message);
     } else { // Create uuid and add new user to the user list
       newUser.id = uuid.v4();
@@ -157,17 +160,17 @@ app.get('/users', (req, res) => {
 });
   
 // Allow users to update their user info (username)
-app.put('/users/:email/:user_name', (req, res) => {
-    // Find the user with the corresponding email
+app.put('/users/:id/:user_name', (req, res) => {
+    // Find the user with the corresponding id
     let user = users.find((user) => {
-      return user.email === req.params.email;
+      return user.id === req.params.id;
     });
   
     if(user){ // if a user could be found, change user name
       user.user_name = req.params.user_name;
       res.status(201).send('Your username was successfully updated to: ' + req.params.user_name);
     } else { // else, return error message
-      res.status(404).send('User with mail address ' + req.params.email + ' was not found.');
+      res.status(404).send('User with id ' + req.params.id + ' was not found.');
     };
 });
   
@@ -209,22 +212,21 @@ app.delete('/users/:email/favorites/:title', (req, res) => {
     };
 });
   
-// Allow existing users to deregister
-app.delete('/users/:email', (req, res) => {
-    // Find the user with the corresponding email
+// Allow existing users to deregister by ID
+app.delete('/users/:id', (req, res) => {
+    // Find the user with the corresponding ID
     let user = users.find((user) => {
-      return user.email === req.params.email;
+      return user.id === req.params.id;
 });
   
-if (user) { // If a user with the email address exists
+if (user) { // If a user with the ID exists
       // delete the user object from the array
       users = users.filter((obj) => {
-        return obj.email != req.params.email;
-      });
+        return obj.id != req.params.id });
       // Send response message
-      res.status(201).send('User with the email ' + req.params.email + ' was sucessfully deleted.');
+      res.status(201).send('User with ID ' + req.params.id + ' was sucessfully deleted.');
     } else { // If user cannot be found, return error
-      res.status(404).send('User with the email ' + req.params.email + ' was not found.');
+      res.status(404).send('User with the ID ' + req.params.id + ' was not found.');
     };
 });
 
