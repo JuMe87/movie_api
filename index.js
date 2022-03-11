@@ -96,7 +96,20 @@ let directors = [
 ];
   
 //Create array of objects that holds data about users
-let users = [];
+let users = [
+    {
+        user_name: 'Jule Meyer',
+        email: 'j.musterfrau@gmail.com',
+        password: '123456!'
+        date of birth: '12/09/1967'
+    },
+    {
+        user_name: 'Strawberry',
+        email: 'strawberry@gmail.com',
+        password: '654321!'
+        date of birth: '08/09/1995'
+    }
+];
 
 // Return a list of ALL movies to the user
 app.get('/movies', (req, res) => {
@@ -129,7 +142,8 @@ app.post('/users', (req, res) => {
     let newUser = req.body; // using body-parser to get request body in JSON format
   
     if(!newUser.user_name){ // If the user_name is missing, return error message
-      res.status(400).send('Missing user name in request body!');
+      const message = 'missing "name" in reuqest body';
+      res.status(400).send(message);
     } else { // Create uuid and add new user to the user list
       newUser.id = uuid.v4();
       users.push(newUser);
