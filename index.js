@@ -63,15 +63,15 @@ let movies = [
 // Create array of objects that holds data about genres
 let genres = [
     {
-      genre_name: 'Drama',
+      GenreName: 'Drama',
       description: 'The drama genre features stories with high stakes and a lot of conflicts. They are plot-driven and demand that every character and scene move the story forward. Dramas follow a clearly defined narrative plot structure, portraying real-life scenarios or extreme situations with emotionally-driven characters.'
     },
     {
-      genre_name: 'Fantasy',
+      GenreName: 'Fantasy',
       description: 'Fantasy is a genre of literature that features magical and supernatural elements that do not exist in the real world. Speculative in nature, fantasy is not tied to reality or scientific fact.'
     },
     {
-      genre_name: 'Action',
+      GenreName: 'Action',
       description: 'Action film is a film genre in which the protagonist is thrust into a series of events that typically involve violence and physical feats.'
     }
 ];
@@ -79,18 +79,18 @@ let genres = [
 // Create array of objects that holds data about directors
 let directors = [
     {
-      director_name: 'James Cameron',
-      birth_year: 1954,
+      DirectorName: 'James Cameron',
+      BirthYear: 1954,
       bio: 'xyz'
     },
     {
-      director_name: 'Chris Columbus',
-      birth_year: 1958,
+      DirectorName: 'Chris Columbus',
+      BirthYear: 1958,
       bio: 'abc'
     },
     {
-      direcor_name: 'James Gunn',
-      birth_year: 1966,
+      DirecorName: 'James Gunn',
+      BirthYear: 1966,
       bio: 'def'
     }
 ];
@@ -99,14 +99,14 @@ let directors = [
 let users = [
     {
       id: 1,  
-      user_name: "Jule Meyer",
+      UserName: "Jule Meyer",
       email: "musterfrau@gmail.com",
       password: '123456!',
       birthday: '12/09/1967',
     },
     {
       id: 2,
-      user_name: 'Strawberry',
+      UserName: 'Strawberry',
       email: 'strawberry@gmail.com',
       password: '654321!',
       birthday: '08/09/1995',
@@ -129,14 +129,14 @@ app.get('/movies/:title', (req, res) => {
 // Return data about a genre (description) by name/title (e.g., “Fantasy”)
 app.get('/genres/:genre_name', (req, res) => {
     res.json(genres.find((genre) => {
-      return genre.genre_name === req.params.genre_name;
+      return genre.GenreName === req.params.GenreName;
     }));
 });
   
 // Return data about a director (bio, birth year, death year) by name
 app.get('/directors/:director_name', (req, res) => {
     res.json(directors.find((director) => {
-      return director.director_name === req.params.director_name;
+      return director.DirectorName === req.params.DirectorName;
     }));
 });
   
@@ -150,7 +150,7 @@ app.post('/users', (req, res) => {
     } else { // Create uuid and add new user to the user list
       newUser.id = uuid.v4();
       users.push(newUser);
-      res.status(201).send('Your profile with the user name ' + req.body.user_name + ' was successfully created!');
+      res.status(201).send('Your profile with the user name ' + req.body.UserName + ' was successfully created!');
     };
 });
   
@@ -167,8 +167,8 @@ app.put('/users/:id/:user_name', (req, res) => {
     });
   
     if(user){ // if a user could be found, change user name
-      user.user_name = req.params.user_name;
-      res.status(201).send('Your username was successfully updated to: ' + req.params.user_name);
+      user.UserName = req.params.UserName;
+      res.status(201).send('Your user name was successfully updated to: ' + req.params.UserName);
     } else { // else, return error message
       res.status(404).send('User with id ' + req.params.id + ' was not found.');
     };
