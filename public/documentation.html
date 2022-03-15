@@ -89,17 +89,17 @@
               <td>POST</td>
               <td>A JSON object holding the user information. Example:<br>
                   {<br>
-                  "user_name": "Maxi123",<br>
+                  "UserName": "Maxi123",<br>
                   "email": "mustermann@mail.de",<br>
                   "password": "123456!",<br>
-                  "date of birth": "01.01.1990"<br>
+                  "birthday": "01.01.1990"<br>
                   }
               </td>
               <td>A success message indicating that the profile was successfully created.</td>
             </tr>
             <tr>
               <td>Allow users to update their user info (username)</td>
-              <td>/users/:email/:user_name</td>
+              <td>/users/:id/:user_name</td>
               <td>PUT</td>
               <td>none</td>
               <td>A success message indicating that the profile was successfully updated.</td>
@@ -120,7 +120,7 @@
             </tr>
             <tr>
               <td>Allow existing users to deregister</td>
-              <td>/users/:email</td>
+              <td>/users/:id</td>
               <td>DELETE</td>
               <td>none</td>
               <td>A success message indicating that the profile was successfully deleted.</td>
