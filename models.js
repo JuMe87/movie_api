@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const mongoose = require("mongoose");
 
 //Defining the Schema in both my data collections
@@ -25,6 +26,14 @@ let userSchema = mongoose.Schema({
     Birthday: Date,
     FavoriteMovies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Movie" }]
 });
+
+userSchema.statics.hashPassword = (password) => {
+  return bcrypt.hashSync(password, 10);
+};
+
+userSchema.methods.validatePassword = function(password) {
+  return bcrypt.compareSync(password, this.Password);
+};
 
 //Creation of the Models - they use the schemas defined above
 
