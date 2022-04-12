@@ -11,6 +11,17 @@ const uuid = require("uuid");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// Uses CORS within my application
+const cors = require('cors');
+// app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
+
+// Import express-validator to validate input fields
+const { check, validationResult } = require('express-validator');
+
 //Imports auth.js file into project
 let auth = require('./auth')(app);
 
@@ -133,7 +144,27 @@ app.get('/movies/director/:Name', passport.authenticate('jwt', { session: false 
 }*/
 
 //Add a user
-app.post("/users", (req, res) => {
+app.post("/users", 
+  // Validation logic here for request
+  //you can either use a chain of methods like .not().isEmpty()
+  //which means "opposite of isEmpty" in plain english "is not empty"
+  //or use .isLength({min: 5}) which means
+  //minimum value of 5 characters are only allowed
+  [
+    check('Username', 'Username is required').isLength({min: 5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Password is required').not().isEmpty(),
+    check('Email', 'Email does not appear to be valid').isEmail()
+  ], (req, res) => {
+
+  // check the validation object for errors
+  let errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username }) //Mongoose findOne command
     .then((user) => {
       if (user) {
@@ -141,7 +172,7 @@ app.post("/users", (req, res) => {
       } else {
         Users.create({
           Username: req.body.Username,
-          Password: req.body.Password,
+          Password: hashedPassword,
           Email: req.body.Email,
           Birthday: req.body.Birthday
         })
@@ -171,11 +202,29 @@ app.post("/users", (req, res) => {
   (required)
   Birthday: Date
 }*/
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', { session: false }), 
+// Validation logic
+[
+  check('Username', 'Username is required (min 5 characters).').isLength({ min: 5 }),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()
+], (req, res) => {
+  // Check validation object for errors
+  let errors = validationResult(req);
+  let hashedPassword = undefined;
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
+  // If Password is given in request body, create hashedPassword from given Password
+  if(req.body.hasOwnProperty('Password')){
+    hashedPassword = Users.hashPassword(req.body.Password);
+  }
+
   Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
       Username: req.body.Username,
-      Password: req.body.Password,
+      Password: hashedPassword, // Stores only hashed password
       Email: req.body.Email,
       Birthday: req.body.Birthday
     }
