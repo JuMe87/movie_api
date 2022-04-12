@@ -10,24 +10,29 @@ let Users = Models.User,
 
 // LocalStrategy defines your basic HTTP authentication for login requests. LocalStrategy takes a username and password from the request body and uses Mongoose to check your database for a user with the same username
 passport.use(new LocalStrategy({
-  usernameField: 'Username',
-  passwordField: 'Password'
+    usernameField: 'Username',
+    passwordField: 'Password'
 }, (username, password, callback) => {
-  console.log(username + '  ' + password);
-  Users.findOne({ Username: username }, (error, user) => {
-    if (error) {
-      console.log(error);
-      return callback(error);
-    }
-
-    if (!user) {
-      console.log('incorrect username');
-      return callback(null, false, {message: 'Incorrect username or password.'});
-    }
-
-    console.log('finished');
-    return callback(null, user);
-  });
+    console.log(username + '  ' + password);
+    Users.findOne({ Username: username }, (error, user) => {
+      if (error) {
+        console.log(error);
+        return callback(error);
+      }
+  
+      if (!user) {
+        console.log('incorrect username');
+        return callback(null, false, {message: 'Incorrect username.'});
+      }
+  
+      if (!user.validatePassword(password)) {
+        console.log('incorrect password');
+        return callback(null, false, {message: 'Incorrect password.'});
+      }
+  
+      console.log('finished');
+      return callback(null, user);
+    });
 }));
 
 // JWTStrategy allows you to authenticate users based on the JWT submitted alongside their request
