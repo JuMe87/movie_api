@@ -38,7 +38,7 @@ const Movies = Models.Movie;
 const Users = Models.User;
 
 // Connection to port 8080
-const port = 8080;
+const port = process.env.PORT || 8080;
 
 // Connecting to MongoDB myFlixDB
 mongoose.connect("mongodb://localhost:27017/myFlixDB", { 
@@ -300,6 +300,6 @@ app.use((err, req, res, next) => {
   });
 
 // listen for requests
-app.listen(port, () => {
-    console.log("Your app is listening on port 8080.");
-});
+app.listen(port, "0.0.0.0",() => {
+  console.log("Listening on Port " + port);
+ });
