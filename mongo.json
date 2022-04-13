@@ -273,4 +273,5 @@ mongoexport -d name_of_database -c name_of_collection -o name_of_file.json
 //Terminal shortcuts
 npm run dev
 
-
+mongoimport --uri mongodb+srv://JosefineDavid2022:JosefineDavid2022@julesprojects.01fvk.mongodb.net/JulesProjects --collection users --type json --file users.json
+mongoimport --uri mongodb+srv://JosefineDavid2022:JosefineDavid2022@julesprojects.01fvk.mongodb.net/JulesProjects --collection movies --type json --file movies.json
