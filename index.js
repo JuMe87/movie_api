@@ -14,11 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // Uses CORS within my application
 const cors = require("cors")
 // app.use(cors());
-app.use(
-    cors({
-        origin: "*",
-    })
-)
+app.use(cors())
 
 // Import express-validator to validate input fields
 const { check, validationResult } = require("express-validator")
@@ -60,12 +56,12 @@ app.get("/", (req, res) => {
 app.get(
     "/movies",
     passport.authenticate("jwt", { session: false }),
-    function (req, res) {
+    (req, res) => {
         Movies.find()
-            .then(function (movies) {
+            .then((movies) => {
                 res.status(201).json(movies)
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.error(error)
                 res.status(500).send("Error: " + error)
             })
