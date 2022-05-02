@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // Uses CORS within my application
 const cors = require("cors")
-// app.use(cors());
 app.use(cors())
 
 // Import express-validator to validate input fields
@@ -52,34 +51,33 @@ app.get("/", (req, res) => {
     res.send("Welcome to myFlix!")
 })
 
-// Return a list of ALL movies
+// Return a list of ALL users
+// app.get(
+//     "/users",
+//     passport.authenticate("jwt", { session: false }),
+//     (req, res) => {
+//         Users.find()
+//             .then((users) => {
+//                 res.status(201).json(users)
+//             })
+//             .catch((err) => {
+//                 console.error(err)
+//                 res.status(500).send("Error: " + err)
+//             })
+//     }
+// )
+
 app.get(
     "/movies",
     passport.authenticate("jwt", { session: false }),
     (req, res) => {
         Movies.find()
-            .then((movies) => {
+            .then(function (movies) {
                 res.status(201).json(movies)
             })
-            .catch((error) => {
+            .catch(function (error) {
                 console.error(error)
                 res.status(500).send("Error: " + error)
-            })
-    }
-)
-
-// Return a list of ALL users
-app.get(
-    "/users",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) => {
-        Users.find()
-            .then((users) => {
-                res.status(201).json(users)
-            })
-            .catch((err) => {
-                console.error(err)
-                res.status(500).send("Error: " + err)
             })
     }
 )
