@@ -6,6 +6,9 @@
 -   [Design Criteria](#Design-criteria)
 -   [Technical Requirements](#Technical-Requirements)
 -   [Setup](#setup)
+-   [Development Process of the Server-Side](#development-process-of-the-server-side)
+-   [Data Security](#data-security)
+-   [Hosting on HEROKU (PaaS) and MongoDBAtlas (DBaaS)](#hosting-on-heroku-paas-and-mongodbatlas-dbaas)
 
 ## Objective
 
@@ -123,7 +126,7 @@ Process:
 -   CORS in Express (set to allow for all origins)
 -   Bcrypt for Password hashing
 
-## Hosting on MongoDBAtlas (DBaaS) and HEROKU (PaaS)
+## Hosting on HEROKU (PaaS) and MongoDBAtlas (DBaaS)
 
 ### Installing HEROKU
 
