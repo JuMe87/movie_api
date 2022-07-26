@@ -6,8 +6,6 @@
 -   [Design Criteria](#Design-criteria)
 -   [Technical Requirements](#Technical-Requirements)
 -   [Setup](#setup)
--   [Useful commands](#useful-commands)
--   [Screenshots](#screenshots)
 
 ## Objective
 
