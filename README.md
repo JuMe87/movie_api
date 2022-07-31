@@ -1,4 +1,4 @@
-# Achievement 2:  myFlix  - movie_api
+# Achievement 2 Project:  myFlix  - movie_api
 
 ## Table of Contents
 
